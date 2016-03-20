@@ -1,10 +1,7 @@
 package com.project.dao;
 
 import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -55,6 +52,80 @@ public class ProviderDAO {
 		provider.providerId = result.getInt("provider_id");
 		provider.providerName = result.getString("provider_name");
 		return provider;
+	}
+
+	public String getFieldForId(String field, int id) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = connection.prepareStatement("select provider_name from providers where provider_id = ?");
+			statement.setInt(1, id);
+			result = statement.executeQuery();
+			return result.getString("provider_name");
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (result != null) {
+				result.close();
+			}
+		}
+	}
+
+	public boolean removeProvider(int providerId) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = connection.prepareStatement("delete from providers where provider_id = ?");
+			statement.setInt(1, providerId);
+			return statement.executeUpdate() > 0;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (result != null) {
+				result.close();
+			}
+		}
+	}
+
+	public boolean addProvider(Provider provider) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = connection
+					.prepareStatement("insert into providers (provider_name, provider_address) values (?, ?)");
+			statement.setString(1, provider.providerName);
+			statement.setString(2, provider.providerAddress);
+			return statement.executeUpdate() > 0;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (result != null) {
+				result.close();
+			}
+		}
+	}
+
+	public boolean updateProvider(Provider provider) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = connection.prepareStatement(
+					"update providers set provider_name = ?, provider_address = ? where provider_id = ?");
+			statement.setString(1, provider.providerName);
+			statement.setString(2, provider.providerAddress);
+			statement.setInt(3, provider.providerId);
+			return statement.executeUpdate() > 0;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (result != null) {
+				result.close();
+			}
+		}
 	}
 
 }
