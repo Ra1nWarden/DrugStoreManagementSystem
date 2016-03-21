@@ -105,7 +105,6 @@ public class DrugDAO {
 			statement.setDouble(3, drug.price);
 			statement.setInt(4, drug.stock);
 			statement.setInt(5, drug.drugId);
-			System.out.println(statement.toString());
 			return statement.executeUpdate() > 0;
 		} finally {
 			if (statement != null) {

@@ -47,6 +47,15 @@ public class HomeWindow {
 						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
 
 		JButton prescriptionManagement = new JButton("处方管理");
+		prescriptionManagement.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PrescriptionTableWindow window = new PrescriptionTableWindow();
+				window.show();
+			}
+
+		});
 		panel.add(prescriptionManagement, "6, 4, center, default");
 
 		JButton drugManagement = new JButton("药品管理");
