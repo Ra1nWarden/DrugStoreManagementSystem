@@ -50,6 +50,15 @@ public class HomeWindow {
 		panel.add(prescriptionManagement, "6, 4, center, default");
 
 		JButton drugManagement = new JButton("药品管理");
+		drugManagement.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DrugTableWindow drugWindow = new DrugTableWindow();
+				drugWindow.show();
+			}
+
+		});
 		panel.add(drugManagement, "8, 4, center, default");
 
 		JButton providerManagement = new JButton("供应商管理");

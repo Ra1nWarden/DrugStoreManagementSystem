@@ -6,5 +6,6 @@ public class Drug {
 	public String drugName;
 	public int providerId;
 	public double price;
+	public int stock;
 
 }

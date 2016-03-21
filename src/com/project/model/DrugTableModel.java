@@ -9,7 +9,7 @@ import com.project.dao.ProviderDAO;
 
 public class DrugTableModel extends AbstractTableModel {
 
-	private static final String[] COLUMNS = { "药品名称", "供应商", "单价" };
+	private static final String[] COLUMNS = { "药品名称", "供应商", "单价", "库存" };
 
 	private List<Drug> drugs;
 	private ProviderDAO providerDAO;
@@ -42,21 +42,23 @@ public class DrugTableModel extends AbstractTableModel {
 			return item.drugName;
 		case 1:
 			try {
-				return providerDAO.getFieldForId("provider_name", item.drugId);
+				return providerDAO.getProviderNameForId(item.providerId);
 			} catch (Exception e) {
 				return "未知供应商";
 			}
 		case 2:
 			return item.price;
+		case 3:
+			return item.stock;
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getColumnName(int pos) {
 		return COLUMNS[pos];
 	}
-	
+
 	public Drug getItemAt(int row) {
 		return drugs.get(row);
 	}

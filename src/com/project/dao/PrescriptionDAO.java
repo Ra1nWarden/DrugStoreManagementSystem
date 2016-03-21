@@ -34,7 +34,7 @@ public class PrescriptionDAO {
 
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("select * from prescriptions");
+			result = statement.executeQuery("select * from drugstore_info_system.prescriptions");
 			while (result.next()) {
 				ret.add(convertToPrescription(result));
 			}

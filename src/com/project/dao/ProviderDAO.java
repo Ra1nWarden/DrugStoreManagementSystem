@@ -31,7 +31,7 @@ public class ProviderDAO {
 
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("select * from providers");
+			result = statement.executeQuery("select * from drugstore_info_system.providers");
 			while (result.next()) {
 				ret.add(convertToProvider(result));
 			}
@@ -54,14 +54,15 @@ public class ProviderDAO {
 		return provider;
 	}
 
-	public String getFieldForId(String field, int id) throws Exception {
+	public String getProviderNameForId(int id) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			statement = connection.prepareStatement("select provider_name from providers where provider_id = ?");
+			statement = connection.prepareStatement("select provider_name from drugstore_info_system.providers where provider_id = ?");
 			statement.setInt(1, id);
 			result = statement.executeQuery();
-			return result.getString("provider_name");
+			result.next();
+			return result.getString(1);
 		} finally {
 			if (statement != null) {
 				statement.close();
@@ -76,7 +77,7 @@ public class ProviderDAO {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			statement = connection.prepareStatement("delete from providers where provider_id = ?");
+			statement = connection.prepareStatement("delete from drugstore_info_system.providers where provider_id = ?");
 			statement.setInt(1, providerId);
 			return statement.executeUpdate() > 0;
 		} finally {
