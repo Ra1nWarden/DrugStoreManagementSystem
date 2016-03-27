@@ -46,7 +46,7 @@ public class ProviderDAO {
 		return ret;
 	}
 
-	private Provider convertToProvider(ResultSet result) throws Exception {
+	public static Provider convertToProvider(ResultSet result) throws Exception {
 		Provider provider = new Provider();
 		provider.providerAddress = result.getString("provider_address");
 		provider.providerId = result.getInt("provider_id");

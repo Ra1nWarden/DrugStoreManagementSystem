@@ -7,5 +7,10 @@ public class Drug {
 	public int providerId;
 	public double price;
 	public int stock;
+	
+	@Override
+	public String toString() {
+		return drugName;
+	}
 
 }

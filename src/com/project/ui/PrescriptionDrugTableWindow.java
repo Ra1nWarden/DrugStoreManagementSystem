@@ -5,22 +5,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-import javax.swing.JButton;
+import com.project.dao.PrescriptionDrugDAO;
+import com.project.model.PrescriptionDrug;
+import com.project.model.PrescriptionDrugTableModel;
 
-import com.project.dao.PrescriptionDAO;
-import com.project.model.Prescription;
-import com.project.model.PrescriptionTableModel;
+public class PrescriptionDrugTableWindow extends CommonTableWindow implements ComponentListener {
 
-public class PrescriptionTableWindow extends CommonTableWindow implements ComponentListener {
+	private PrescriptionDrugTableModel model;
+	private PrescriptionDrugDAO dao;
+	private final int prescriptionId;
 
-	private PrescriptionTableModel model;
-	private PrescriptionDAO dao;
-
-	public PrescriptionTableWindow() {
+	public PrescriptionDrugTableWindow(int prescriptionId) {
 		super();
-		frame.setTitle("处方管理");
+		this.prescriptionId = prescriptionId;
+		frame.setTitle("处方药品管理");
 		try {
-			dao = new PrescriptionDAO();
+			dao = new PrescriptionDrugDAO();
 			loadData();
 		} catch (Exception e) {
 			alertError("数据库错误", "未知错误，请联系管理员");
@@ -30,8 +30,8 @@ public class PrescriptionTableWindow extends CommonTableWindow implements Compon
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PrescriptionInfoWindow window = new PrescriptionInfoWindow(dao);
-				window.addComponentListener(PrescriptionTableWindow.this);
+				PrescriptionDrugInfoWindow window = new PrescriptionDrugInfoWindow(dao, prescriptionId);
+				window.addComponentListener(PrescriptionDrugTableWindow.this);
 				window.show();
 			}
 
@@ -43,8 +43,9 @@ public class PrescriptionTableWindow extends CommonTableWindow implements Compon
 			public void actionPerformed(ActionEvent e) {
 				int idx = getSelectedOrAlert();
 				if (idx > -1) {
-					PrescriptionInfoWindow window = new PrescriptionInfoWindow(dao, model.getItemAt(idx));
-					window.addComponentListener(PrescriptionTableWindow.this);
+					PrescriptionDrugInfoWindow window = new PrescriptionDrugInfoWindow(dao, prescriptionId,
+							model.getItemAt(idx));
+					window.addComponentListener(PrescriptionDrugTableWindow.this);
 					window.show();
 				}
 			}
@@ -57,9 +58,9 @@ public class PrescriptionTableWindow extends CommonTableWindow implements Compon
 			public void actionPerformed(ActionEvent e) {
 				int idx = getSelectedOrAlert();
 				if (idx > -1) {
-					Prescription prescription = model.getItemAt(idx);
+					PrescriptionDrug prescriptionDrug = model.getItemAt(idx);
 					try {
-						if (dao.removePrescription(prescription.prescriptionId)) {
+						if (dao.removePrescriptionDrug(prescriptionDrug.prescriptionId, prescriptionDrug.drugId)) {
 							alert("删除成功！");
 							loadData();
 						} else {
@@ -72,28 +73,10 @@ public class PrescriptionTableWindow extends CommonTableWindow implements Compon
 			}
 
 		});
-
-		JButton checkDrugButton = new JButton("查看处方药品");
-		buttonPanel.add(checkDrugButton);
-		checkDrugButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int idx = getSelectedOrAlert();
-				if (idx > -1) {
-					Prescription prescription = model.getItemAt(idx);
-					PrescriptionDrugTableWindow window = new PrescriptionDrugTableWindow(prescription.prescriptionId);
-					window.addComponentListener(PrescriptionTableWindow.this);
-					window.show();
-				}
-
-			}
-
-		});
 	}
 
 	private void loadData() throws Exception {
-		model = new PrescriptionTableModel(dao.getAllPrescription());
+		model = new PrescriptionDrugTableModel(prescriptionId);
 		contentTable.setModel(model);
 	}
 
@@ -123,4 +106,9 @@ public class PrescriptionTableWindow extends CommonTableWindow implements Compon
 			alertError("刷新列表失败！", "错误");
 		}
 	}
+
+	public void addComponentListener(ComponentListener listener) {
+		frame.addComponentListener(listener);
+	}
+
 }

@@ -47,7 +47,7 @@ public class DrugDAO {
 		return ret;
 	}
 
-	private Drug convertToDrug(ResultSet result) throws Exception {
+	public static Drug convertToDrug(ResultSet result) throws Exception {
 		Drug drug = new Drug();
 		drug.drugId = result.getInt("drug_id");
 		drug.drugName = result.getString("drug_name");
