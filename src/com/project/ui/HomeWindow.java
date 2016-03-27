@@ -84,6 +84,15 @@ public class HomeWindow {
 
 		JButton systemManagement = new JButton("系统管理");
 		panel.add(systemManagement, "8, 8, center, default");
+		systemManagement.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UserTableWindow userWindow = new UserTableWindow();
+				userWindow.show();
+			}
+
+		});
 
 	}
 
