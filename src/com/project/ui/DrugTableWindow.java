@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
+import javax.swing.JButton;
+
 import com.project.dao.DrugDAO;
 import com.project.model.Drug;
 import com.project.model.DrugTableModel;
@@ -13,10 +15,14 @@ public class DrugTableWindow extends CommonTableWindow implements ComponentListe
 
 	private DrugTableModel model;
 	private DrugDAO dao;
+	private JButton portButton;
 
 	public DrugTableWindow() {
 		super();
 		frame.setTitle("药品管理");
+		portButton = new JButton("进/退货");
+		buttonPanel.add(portButton);
+
 		try {
 			dao = new DrugDAO();
 			loadData();
@@ -70,6 +76,25 @@ public class DrugTableWindow extends CommonTableWindow implements ComponentListe
 			}
 
 		});
+
+		portButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int idx = getSelectedOrAlert();
+				if (idx > -1) {
+					try {
+						ImportExportWindow window = new ImportExportWindow(dao, model.getItemAt(idx));
+						window.addComponentListener(DrugTableWindow.this);
+						window.show();
+					} catch (Exception ex) {
+						alertError("数据库错误", "请联系管理员。");
+					}
+				}
+
+			}
+
+		});
 	}
 
 	private void loadData() throws Exception {
@@ -99,7 +124,7 @@ public class DrugTableWindow extends CommonTableWindow implements ComponentListe
 	public void componentHidden(ComponentEvent e) {
 		try {
 			loadData();
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			alertError("刷新列表失败！", "错误");
 		}
 	}
