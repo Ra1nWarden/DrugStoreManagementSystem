@@ -112,7 +112,6 @@ public class PrescriptionDrugDAO {
 					} else {
 						throw new IllegalArgumentException();
 					}
-
 				} else if (prescriptionDrug.status.equals("已退货") && oldStatus.equals("已发货")) {
 					statement = connection.prepareStatement(
 							"update drugstore_info_system.drugs set stock = stock + ? where drug_id = ?");

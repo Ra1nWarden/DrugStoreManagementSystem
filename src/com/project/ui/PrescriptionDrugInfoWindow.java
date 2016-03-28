@@ -36,6 +36,7 @@ public class PrescriptionDrugInfoWindow {
 	private JTextField amountField;
 	private JComboBox<Drug> nameSelection;
 	private JComboBox<CharSequence> statusSelection;
+	private List<Drug> allDrugs;
 	private final int prescriptionId;
 
 	/**
@@ -57,9 +58,14 @@ public class PrescriptionDrugInfoWindow {
 		amountField.setEditable(false);
 		nameSelection.setEnabled(false);
 		try {
-			providerField.setText(providerDAO.getProviderNameForId(prescriptionDrug.prescriptionId));
+			providerField.setText(prescriptionDrug.provider.providerName);
 			amountField.setText(Integer.toString(prescriptionDrug.amount));
-			nameSelection.setSelectedItem(prescriptionDrug.drug);
+			for (Drug drug : allDrugs) {
+				if (drug.drugName.equals(prescriptionDrug.drug.drugName)) {
+					nameSelection.setSelectedItem(drug);
+					break;
+				}
+			}
 		} catch (Exception ex) {
 			alertError("加载数据失败", "数据库错误");
 		}
@@ -98,7 +104,7 @@ public class PrescriptionDrugInfoWindow {
 		try {
 			providerDAO = new ProviderDAO();
 			DrugDAO drugDAO = new DrugDAO();
-			List<Drug> allDrugs = drugDAO.getAllDrugs();
+			allDrugs = drugDAO.getAllDrugs();
 			for (Drug eachDrug : allDrugs) {
 				nameSelection.addItem(eachDrug);
 			}
@@ -114,7 +120,7 @@ public class PrescriptionDrugInfoWindow {
 		providerField = new JTextField();
 		providerField.setEditable(false);
 		frame.getContentPane().add(providerField, "8, 8, center, center");
-		providerField.setColumns(20);
+		providerField.setColumns(10);
 
 		nameSelection.addItemListener(new ItemListener() {
 
@@ -176,6 +182,7 @@ public class PrescriptionDrugInfoWindow {
 						}
 					}
 				} catch (Exception ex) {
+					ex.printStackTrace();
 					alertError("操作失败，未知错误。", "数据库错误");
 				}
 			}

@@ -47,6 +47,28 @@ public class DrugDAO {
 		return ret;
 	}
 
+	public Drug getDrugForId(int id) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet result = null;
+
+		try {
+			statement = connection.prepareStatement("select * from drugstore_info_system.drugs where drug_id = ?");
+			statement.setInt(1, id);
+			result = statement.executeQuery();
+			if (result.next()) {
+				return convertToDrug(result);
+			}
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (result != null) {
+				result.close();
+			}
+		}
+		return null;
+	}
+
 	public static Drug convertToDrug(ResultSet result) throws Exception {
 		Drug drug = new Drug();
 		drug.drugId = result.getInt("drug_id");
@@ -78,8 +100,8 @@ public class DrugDAO {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			statement = connection
-					.prepareStatement("insert into drugstore_info_system.drugs (drug_name, provider_id, price) values (?, ?, ?)");
+			statement = connection.prepareStatement(
+					"insert into drugstore_info_system.drugs (drug_name, provider_id, price) values (?, ?, ?)");
 			statement.setString(1, drug.drugName);
 			statement.setInt(2, drug.providerId);
 			statement.setDouble(3, drug.price);
