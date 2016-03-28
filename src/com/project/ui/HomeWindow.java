@@ -1,6 +1,7 @@
 package com.project.ui;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -11,6 +12,8 @@ import javax.swing.JButton;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+import com.project.app.UserManager;
+
 import javax.swing.JPanel;
 import com.jgoodies.forms.layout.FormSpecs;
 
@@ -88,8 +91,12 @@ public class HomeWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserTableWindow userWindow = new UserTableWindow();
-				userWindow.show();
+				if (UserManager.getInstance().getLoggedInUser().admin) {
+					UserTableWindow userWindow = new UserTableWindow();
+					userWindow.show();
+				} else {
+					JOptionPane.showMessageDialog(frame, "您没有权限查看用户！", "错误", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 		});

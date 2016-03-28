@@ -112,4 +112,29 @@ public class UserDAO {
 		}
 	}
 
+	public User loginUser(String username, String password) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			statement = connection
+					.prepareStatement("select * from  drugstore_info_system.users where username = ? and password = ?");
+			statement.setString(1, username);
+			statement.setString(2, password);
+			result = statement.executeQuery();
+			if (result.next()) {
+				User user = convertToUser(result);
+				return user;
+			} else {
+				return null;
+			}
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (result != null) {
+				result.close();
+			}
+		}
+	}
+
 }
