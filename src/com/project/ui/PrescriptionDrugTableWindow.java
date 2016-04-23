@@ -73,10 +73,23 @@ public class PrescriptionDrugTableWindow extends CommonTableWindow implements Co
 			}
 
 		});
+
+		filterText.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PrescriptionDrugTableWindow.this.loadData();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		});
 	}
 
 	private void loadData() throws Exception {
-		model = new PrescriptionDrugTableModel(prescriptionId);
+		model = new PrescriptionDrugTableModel(prescriptionId, filterText.getText());
 		contentTable.setModel(model);
 	}
 

@@ -12,9 +12,9 @@ public class PrescriptionDrugTableModel extends AbstractTableModel {
 
 	private List<PrescriptionDrug> drugs;
 
-	public PrescriptionDrugTableModel(int prescriptionId) throws Exception {
+	public PrescriptionDrugTableModel(int prescriptionId, String filter) throws Exception {
 		PrescriptionDrugDAO dao = new PrescriptionDrugDAO();
-		drugs = dao.getAllDrugsForPrescription(prescriptionId);
+		drugs = dao.getAllDrugsForPrescription(prescriptionId, filter);
 	}
 
 	@Override

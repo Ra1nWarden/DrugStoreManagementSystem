@@ -24,14 +24,15 @@ public class PrescriptionDrugDAO {
 		connection = DriverManager.getConnection(dburl, username, password);
 	}
 
-	public List<PrescriptionDrug> getAllDrugsForPrescription(int id) throws Exception {
+	public List<PrescriptionDrug> getAllDrugsForPrescription(int id, String filter) throws Exception {
 		List<PrescriptionDrug> ret = new ArrayList<PrescriptionDrug>();
 		PreparedStatement statement = null;
 		ResultSet result = null;
 
 		try {
 			statement = connection.prepareStatement(
-					"select * from drugstore_info_system.prescriptions join drugstore_info_system.drugs join drugstore_info_system.providers join drugstore_info_system.prescription_drugs on prescription_drugs.prescription_id = prescriptions.prescription_id and prescription_drugs.drug_id = drugs.drug_id and drugs.provider_id = providers.provider_id where prescriptions.prescription_id = ?");
+					"select * from drugstore_info_system.prescriptions join drugstore_info_system.drugs join drugstore_info_system.providers join drugstore_info_system.prescription_drugs on prescription_drugs.prescription_id = prescriptions.prescription_id and prescription_drugs.drug_id = drugs.drug_id and drugs.provider_id = providers.provider_id where prescriptions.prescription_id = ? and drugs.drug_name like '%"
+							+ filter + "%'");
 			statement.setInt(1, id);
 			result = statement.executeQuery();
 			while (result.next()) {
