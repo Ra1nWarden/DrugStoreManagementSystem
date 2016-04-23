@@ -104,7 +104,7 @@ public class PrescriptionDrugInfoWindow {
 		try {
 			providerDAO = new ProviderDAO();
 			DrugDAO drugDAO = new DrugDAO();
-			allDrugs = drugDAO.getAllDrugs();
+			allDrugs = drugDAO.getAllDrugs("");
 			for (Drug eachDrug : allDrugs) {
 				nameSelection.addItem(eachDrug);
 			}

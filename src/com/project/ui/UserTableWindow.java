@@ -70,10 +70,23 @@ public class UserTableWindow extends CommonTableWindow implements ComponentListe
 			}
 
 		});
+
+		filterText.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					UserTableWindow.this.loadData();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		});
 	}
 
 	private void loadData() throws Exception {
-		model = new UserTableModel(dao.getAllUsers());
+		model = new UserTableModel(dao.getAllUsers(filterText.getText()));
 		contentTable.setModel(model);
 	}
 

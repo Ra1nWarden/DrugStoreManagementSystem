@@ -25,14 +25,15 @@ public class DrugDAO {
 		connection = DriverManager.getConnection(dburl, username, password);
 	}
 
-	public List<Drug> getAllDrugs() throws Exception {
+	public List<Drug> getAllDrugs(String filter) throws Exception {
 		List<Drug> ret = new ArrayList<Drug>();
 		Statement statement = null;
 		ResultSet result = null;
 
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("select * from drugstore_info_system.drugs");
+			result = statement
+					.executeQuery("select * from drugstore_info_system.drugs where drug_name like '%" + filter + "%'");
 			while (result.next()) {
 				ret.add(convertToDrug(result));
 			}

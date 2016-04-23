@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
 
 public class CommonTableWindow {
 
@@ -18,6 +19,7 @@ public class CommonTableWindow {
 	protected JButton addButton;
 	protected JButton editButton;
 	protected JButton deleteButton;
+	protected JTextField filterText;
 
 	/**
 	 * Create the application.
@@ -60,6 +62,10 @@ public class CommonTableWindow {
 		contentTable = new JTable();
 		contentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(contentTable);
+		
+		filterText = new JTextField();
+		buttonPanel.add(filterText);
+		filterText.setColumns(10);
 
 		addButton = new JButton("添加");
 		buttonPanel.add(addButton);

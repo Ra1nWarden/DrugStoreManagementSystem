@@ -29,14 +29,14 @@ public class PrescriptionDAO {
 		connection = DriverManager.getConnection(dburl, username, password);
 	}
 
-	public List<Prescription> getAllPrescription() throws Exception {
+	public List<Prescription> getAllPrescription(String filter) throws Exception {
 		List<Prescription> ret = new ArrayList<Prescription>();
 		Statement statement = null;
 		ResultSet result = null;
 
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("select * from drugstore_info_system.prescriptions");
+			result = statement.executeQuery("select * from drugstore_info_system.prescriptions where patient_name like '%" + filter + "%'");
 			while (result.next()) {
 				ret.add(convertToPrescription(result));
 			}

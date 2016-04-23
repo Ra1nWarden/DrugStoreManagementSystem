@@ -96,7 +96,7 @@ public class DrugInfoWindow {
 		providerBox = new JComboBox<Provider>();
 		try {
 			ProviderDAO providerDAO = new ProviderDAO();
-			providers = providerDAO.getAllProviders();
+			providers = providerDAO.getAllProviders("");
 			for (Provider provider : providers) {
 				providerBox.addItem(provider);
 			}

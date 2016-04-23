@@ -24,14 +24,14 @@ public class UserDAO {
 		connection = DriverManager.getConnection(dburl, username, password);
 	}
 
-	public List<User> getAllUsers() throws Exception {
+	public List<User> getAllUsers(String filter) throws Exception {
 		List<User> ret = new ArrayList<>();
 		Statement statement = null;
 		ResultSet result = null;
 
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("select * from drugstore_info_system.users");
+			result = statement.executeQuery("select * from drugstore_info_system.users where username like '%" + filter + "%'");
 			while (result.next()) {
 				ret.add(convertToUser(result));
 			}

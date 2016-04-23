@@ -95,10 +95,23 @@ public class DrugTableWindow extends CommonTableWindow implements ComponentListe
 			}
 
 		});
+
+		filterText.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					DrugTableWindow.this.loadData();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		});
 	}
 
 	private void loadData() throws Exception {
-		model = new DrugTableModel(dao.getAllDrugs());
+		model = new DrugTableModel(dao.getAllDrugs(filterText.getText()));
 		contentTable.setModel(model);
 	}
 

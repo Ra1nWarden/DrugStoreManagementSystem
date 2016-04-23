@@ -21,7 +21,8 @@ public class ProviderTableWindow extends CommonTableWindow implements ComponentL
 			dao = new ProviderDAO();
 			loadData();
 		} catch (Exception e) {
-			alertError("数据库错误", "未知错误，请联系管理员");
+			alertError("数据库错误XX", "未知错误，请联系管理员");
+			e.printStackTrace();
 		}
 
 		addButton.addActionListener(new ActionListener() {
@@ -70,36 +71,49 @@ public class ProviderTableWindow extends CommonTableWindow implements ComponentL
 			}
 
 		});
+
+		filterText.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ProviderTableWindow.this.loadData();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		});
 	}
-	
+
 	private void loadData() throws Exception {
-		model = new ProviderTableModel(dao.getAllProviders());
+		model = new ProviderTableModel(dao.getAllProviders(filterText.getText()));
 		contentTable.setModel(model);
 	}
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
 		try {
 			loadData();
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			alertError("刷新列表失败！", "错误");
 		}
 	}

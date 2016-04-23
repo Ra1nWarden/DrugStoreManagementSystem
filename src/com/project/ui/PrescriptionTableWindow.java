@@ -90,10 +90,23 @@ public class PrescriptionTableWindow extends CommonTableWindow implements Compon
 			}
 
 		});
+
+		filterText.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PrescriptionTableWindow.this.loadData();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		});
 	}
 
 	private void loadData() throws Exception {
-		model = new PrescriptionTableModel(dao.getAllPrescription());
+		model = new PrescriptionTableModel(dao.getAllPrescription(filterText.getText()));
 		contentTable.setModel(model);
 	}
 

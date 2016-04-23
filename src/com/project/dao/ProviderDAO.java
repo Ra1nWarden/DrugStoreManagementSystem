@@ -24,14 +24,14 @@ public class ProviderDAO {
 		connection = DriverManager.getConnection(dburl, username, password);
 	}
 
-	public List<Provider> getAllProviders() throws Exception {
+	public List<Provider> getAllProviders(String filter) throws Exception {
 		List<Provider> ret = new ArrayList<Provider>();
 		Statement statement = null;
 		ResultSet result = null;
 
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("select * from drugstore_info_system.providers");
+			result = statement.executeQuery("select * from drugstore_info_system.providers where provider_name like '%" + filter + "%'");
 			while (result.next()) {
 				ret.add(convertToProvider(result));
 			}

@@ -16,7 +16,7 @@ public class DrugTableModel extends AbstractTableModel {
 
 	public DrugTableModel() throws Exception {
 		DrugDAO drugDAO = new DrugDAO();
-		drugs = drugDAO.getAllDrugs();
+		drugs = drugDAO.getAllDrugs("");
 	}
 
 	public DrugTableModel(List<Drug> drugs) throws Exception {
